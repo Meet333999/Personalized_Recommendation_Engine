@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 
 from backend.config.config import settings
+from backend.features.fetch_movie_posters import load_movie_posters
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -22,6 +23,7 @@ class ColdStartRecommender:
 
     def __init__(self):
         self.items_df: Optional[pd.DataFrame] = None
+        self.posters_map: Dict[str, str] = load_movie_posters()
         self._load_metadata()
 
     def _load_metadata(self) -> None:
@@ -105,6 +107,7 @@ class ColdStartRecommender:
                 "strategy": "cold_start",
                 "reason": reason,
                 "rank": rank,
+                "poster_url": self.posters_map.get(str(row["item_id"])),
             })
 
         return recommendations

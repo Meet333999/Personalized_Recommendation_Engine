@@ -45,6 +45,7 @@ export interface RecommendationItem {
   strategy: string;
   reason?: string;
   rank: number;
+  poster_url?: string;
 }
 
 export interface RecommendationResult {
@@ -76,6 +77,7 @@ export interface OverviewData {
     primary_category: string;
     rating_count: number;
     average_rating: number;
+    poster_url?: string;
   }>;
   most_popular_categories: Array<{
     category: string;
@@ -162,11 +164,11 @@ const MOCK_OVERVIEW: OverviewData = {
   total_interactions: 80668,
   average_interactions_per_user: 154.5,
   most_popular_items: [
-    { item_id: "356", title: "Forrest Gump (1994)", primary_category: "Comedy", rating_count: 267, average_rating: 4.17 },
-    { item_id: "296", title: "Pulp Fiction (1994)", primary_category: "Comedy", rating_count: 264, average_rating: 4.19 },
-    { item_id: "318", title: "Shawshank Redemption, The (1994)", primary_category: "Crime", rating_count: 256, average_rating: 4.42 },
-    { item_id: "593", title: "Silence of the Lambs, The (1991)", primary_category: "Crime", rating_count: 235, average_rating: 4.2 },
-    { item_id: "2571", title: "Matrix, The (1999)", primary_category: "Action", rating_count: 219, average_rating: 4.21 },
+    { item_id: "356", title: "Forrest Gump (1994)", primary_category: "Comedy", rating_count: 267, average_rating: 4.17, poster_url: "https://image.tmdb.org/t/p/w342/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg" },
+    { item_id: "296", title: "Pulp Fiction (1994)", primary_category: "Comedy", rating_count: 264, average_rating: 4.19, poster_url: "https://image.tmdb.org/t/p/w342/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg" },
+    { item_id: "318", title: "Shawshank Redemption, The (1994)", primary_category: "Crime", rating_count: 256, average_rating: 4.42, poster_url: "https://image.tmdb.org/t/p/w342/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg" },
+    { item_id: "593", title: "Silence of the Lambs, The (1991)", primary_category: "Crime", rating_count: 235, average_rating: 4.2, poster_url: "https://image.tmdb.org/t/p/w342/uS9m8OBk1A8eM9I042bx8XXpqAq.jpg" },
+    { item_id: "2571", title: "Matrix, The (1999)", primary_category: "Action", rating_count: 219, average_rating: 4.21, poster_url: "https://image.tmdb.org/t/p/w342/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" },
   ],
   most_popular_categories: [
     { category: "Action", item_count: 1828, total_interactions: 23477 },
@@ -248,18 +250,18 @@ function generateMockRecommendations(userId: string, limit: number, category?: s
   const strategy = isColdStart ? "cold_start_popularity" : (model === "wnd" ? "two_stage_wnd" : "two_stage_dcn");
 
   const catalog = [
-    { item_id: "2571", title: "Matrix, The (1999)", primary_category: "Action", categories: ["Action", "Sci-Fi"], release_year: 1999, average_rating: 4.21, interaction_count: 219, popularity_score: 0.94, retrieval_score: 0.342, ranking_score: 0.912 },
-    { item_id: "296", title: "Pulp Fiction (1994)", primary_category: "Comedy", categories: ["Comedy", "Crime", "Drama"], release_year: 1994, average_rating: 4.19, interaction_count: 264, popularity_score: 0.96, retrieval_score: 0.328, ranking_score: 0.887 },
-    { item_id: "318", title: "Shawshank Redemption, The (1994)", primary_category: "Crime", categories: ["Crime", "Drama"], release_year: 1994, average_rating: 4.42, interaction_count: 256, popularity_score: 0.98, retrieval_score: 0.315, ranking_score: 0.865 },
-    { item_id: "593", title: "Silence of the Lambs, The (1991)", primary_category: "Crime", categories: ["Crime", "Horror", "Thriller"], release_year: 1991, average_rating: 4.2, interaction_count: 235, popularity_score: 0.93, retrieval_score: 0.298, ranking_score: 0.832 },
-    { item_id: "356", title: "Forrest Gump (1994)", primary_category: "Comedy", categories: ["Comedy", "Drama", "Romance"], release_year: 1994, average_rating: 4.17, interaction_count: 267, popularity_score: 0.97, retrieval_score: 0.291, ranking_score: 0.814 },
-    { item_id: "589", title: "Terminator 2: Judgment Day (1991)", primary_category: "Action", categories: ["Action", "Sci-Fi"], release_year: 1991, average_rating: 4.15, interaction_count: 204, popularity_score: 0.91, retrieval_score: 0.285, ranking_score: 0.795 },
-    { item_id: "260", title: "Star Wars: Episode IV - A New Hope (1977)", primary_category: "Action", categories: ["Action", "Adventure", "Sci-Fi"], release_year: 1977, average_rating: 4.23, interaction_count: 251, popularity_score: 0.95, retrieval_score: 0.279, ranking_score: 0.781 },
-    { item_id: "1196", title: "Star Wars: Episode V - The Empire Strikes Back (1980)", primary_category: "Action", categories: ["Action", "Adventure", "Sci-Fi"], release_year: 1980, average_rating: 4.22, interaction_count: 211, popularity_score: 0.92, retrieval_score: 0.274, ranking_score: 0.764 },
-    { item_id: "50", title: "Usual Suspects, The (1995)", primary_category: "Crime", categories: ["Crime", "Mystery", "Thriller"], release_year: 1995, average_rating: 4.24, interaction_count: 204, popularity_score: 0.90, retrieval_score: 0.268, ranking_score: 0.742 },
-    { item_id: "527", title: "Schindler's List (1993)", primary_category: "Drama", categories: ["Drama", "War"], release_year: 1993, average_rating: 4.22, interaction_count: 220, popularity_score: 0.92, retrieval_score: 0.261, ranking_score: 0.729 },
-    { item_id: "47", title: "Seven (a.k.a. Se7en) (1995)", primary_category: "Mystery", categories: ["Mystery", "Thriller"], release_year: 1995, average_rating: 3.98, interaction_count: 180, popularity_score: 0.88, retrieval_score: 0.255, ranking_score: 0.710 },
-    { item_id: "1", title: "Toy Story (1995)", primary_category: "Adventure", categories: ["Adventure", "Animation", "Children", "Comedy", "Fantasy"], release_year: 1995, average_rating: 3.92, interaction_count: 184, popularity_score: 0.93, retrieval_score: 0.248, ranking_score: 0.695 },
+    { item_id: "2571", title: "Matrix, The (1999)", primary_category: "Action", categories: ["Action", "Sci-Fi"], release_year: 1999, average_rating: 4.21, interaction_count: 219, popularity_score: 0.94, retrieval_score: 0.342, ranking_score: 0.912, poster_url: "https://image.tmdb.org/t/p/w342/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" },
+    { item_id: "296", title: "Pulp Fiction (1994)", primary_category: "Comedy", categories: ["Comedy", "Crime", "Drama"], release_year: 1994, average_rating: 4.19, interaction_count: 264, popularity_score: 0.96, retrieval_score: 0.328, ranking_score: 0.887, poster_url: "https://image.tmdb.org/t/p/w342/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg" },
+    { item_id: "318", title: "Shawshank Redemption, The (1994)", primary_category: "Crime", categories: ["Crime", "Drama"], release_year: 1994, average_rating: 4.42, interaction_count: 256, popularity_score: 0.98, retrieval_score: 0.315, ranking_score: 0.865, poster_url: "https://image.tmdb.org/t/p/w342/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg" },
+    { item_id: "593", title: "Silence of the Lambs, The (1991)", primary_category: "Crime", categories: ["Crime", "Horror", "Thriller"], release_year: 1991, average_rating: 4.2, interaction_count: 235, popularity_score: 0.93, retrieval_score: 0.298, ranking_score: 0.832, poster_url: "https://image.tmdb.org/t/p/w342/uS9m8OBk1A8eM9I042bx8XXpqAq.jpg" },
+    { item_id: "356", title: "Forrest Gump (1994)", primary_category: "Comedy", categories: ["Comedy", "Drama", "Romance"], release_year: 1994, average_rating: 4.17, interaction_count: 267, popularity_score: 0.97, retrieval_score: 0.291, ranking_score: 0.814, poster_url: "https://image.tmdb.org/t/p/w342/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg" },
+    { item_id: "589", title: "Terminator 2: Judgment Day (1991)", primary_category: "Action", categories: ["Action", "Sci-Fi"], release_year: 1991, average_rating: 4.15, interaction_count: 204, popularity_score: 0.91, retrieval_score: 0.285, ranking_score: 0.795, poster_url: "https://image.tmdb.org/t/p/w342/5M0j0B18abtBI5em29CG15nhUb.jpg" },
+    { item_id: "260", title: "Star Wars: Episode IV - A New Hope (1977)", primary_category: "Action", categories: ["Action", "Adventure", "Sci-Fi"], release_year: 1977, average_rating: 4.23, interaction_count: 251, popularity_score: 0.95, retrieval_score: 0.279, ranking_score: 0.781, poster_url: "https://image.tmdb.org/t/p/w342/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg" },
+    { item_id: "1196", title: "Star Wars: Episode V - The Empire Strikes Back (1980)", primary_category: "Action", categories: ["Action", "Adventure", "Sci-Fi"], release_year: 1980, average_rating: 4.22, interaction_count: 211, popularity_score: 0.92, retrieval_score: 0.274, ranking_score: 0.764, poster_url: "https://images-na.ssl-images-amazon.com/images/M/MV5BMzk2OTg4MTk1NF5BMl5BanBnXkFtZTcwNjExNTgzNA@@..jpg" },
+    { item_id: "50", title: "Usual Suspects, The (1995)", primary_category: "Crime", categories: ["Crime", "Mystery", "Thriller"], release_year: 1995, average_rating: 4.24, interaction_count: 204, popularity_score: 0.90, retrieval_score: 0.268, ranking_score: 0.742, poster_url: "https://images-na.ssl-images-amazon.com/images/M/MV5BYWUwNDk2ZDYtNmFkMi00NjE5LWE1M2ItYTRkNTFjZDU3ZDU4L2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMTYxNjkxOQ@@..jpg" },
+    { item_id: "527", title: "Schindler's List (1993)", primary_category: "Drama", categories: ["Drama", "War"], release_year: 1993, average_rating: 4.22, interaction_count: 220, popularity_score: 0.92, retrieval_score: 0.261, ranking_score: 0.729, poster_url: "https://image.tmdb.org/t/p/w342/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg" },
+    { item_id: "47", title: "Seven (a.k.a. Se7en) (1995)", primary_category: "Mystery", categories: ["Mystery", "Thriller"], release_year: 1995, average_rating: 3.98, interaction_count: 180, popularity_score: 0.88, retrieval_score: 0.255, ranking_score: 0.710, poster_url: "https://image.tmdb.org/t/p/w342/6yoghtyTBoPMyZ1a0HQZVG9t7Eg.jpg" },
+    { item_id: "1", title: "Toy Story (1995)", primary_category: "Adventure", categories: ["Adventure", "Animation", "Children", "Comedy", "Fantasy"], release_year: 1995, average_rating: 3.92, interaction_count: 184, popularity_score: 0.93, retrieval_score: 0.248, ranking_score: 0.695, poster_url: "https://images-na.ssl-images-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@..jpg" },
   ];
 
   let filtered = catalog;
@@ -374,11 +376,11 @@ export const api = {
 
   getUserHistory: async (userId: string, limit: number = 20): Promise<any> => {
     return safeFetch<any>(`/users/${userId}/history?limit=${limit}`, undefined, () => [
-      { item_id: "2571", title: "Matrix, The (1999)", rating: 5.0, timestamp: 964981179, primary_category: "Action" },
-      { item_id: "260", title: "Star Wars: Episode IV - A New Hope (1977)", rating: 5.0, timestamp: 964981208, primary_category: "Action" },
-      { item_id: "1196", title: "Star Wars: Episode V - The Empire Strikes Back (1980)", rating: 5.0, timestamp: 964981247, primary_category: "Action" },
-      { item_id: "296", title: "Pulp Fiction (1994)", rating: 4.5, timestamp: 964981320, primary_category: "Comedy" },
-      { item_id: "589", title: "Terminator 2: Judgment Day (1991)", rating: 4.5, timestamp: 964981412, primary_category: "Action" },
+      { item_id: "2571", title: "Matrix, The (1999)", rating: 5.0, timestamp: 964981179, primary_category: "Action", poster_url: "https://image.tmdb.org/t/p/w342/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" },
+      { item_id: "260", title: "Star Wars: Episode IV - A New Hope (1977)", rating: 5.0, timestamp: 964981208, primary_category: "Action", poster_url: "https://image.tmdb.org/t/p/w342/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg" },
+      { item_id: "1196", title: "Star Wars: Episode V - The Empire Strikes Back (1980)", rating: 5.0, timestamp: 964981247, primary_category: "Action", poster_url: "https://image.tmdb.org/t/p/w342/nDA9452NzFiHGioZEyR1nBiReLW.jpg" },
+      { item_id: "296", title: "Pulp Fiction (1994)", rating: 4.5, timestamp: 964981320, primary_category: "Comedy", poster_url: "https://image.tmdb.org/t/p/w342/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg" },
+      { item_id: "589", title: "Terminator 2: Judgment Day (1991)", rating: 4.5, timestamp: 964981412, primary_category: "Action", poster_url: "https://image.tmdb.org/t/p/w342/5M0j0B18abtqP30TCFVR9zbLjwT.jpg" },
     ]);
   },
 
@@ -405,6 +407,7 @@ export const api = {
       average_rating: 3.92,
       interaction_count: 184,
       popularity_score: 0.934,
+      poster_url: itemId === "1" ? "https://image.tmdb.org/t/p/w342/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg" : undefined,
     }));
   },
 

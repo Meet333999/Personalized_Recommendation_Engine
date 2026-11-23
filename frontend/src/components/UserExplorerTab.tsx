@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, Search, History, Star, Heart } from "lucide-react";
+import { Users, Search, History, Star, Heart, Film } from "lucide-react";
 import { api } from "../services/api";
 
 export const UserExplorerTab: React.FC = () => {
@@ -168,7 +168,29 @@ export const UserExplorerTab: React.FC = () => {
                 {(Array.isArray(history) ? history : history.history || []).map((int: any) => (
                   <tr key={int.item_id} className="hover:bg-[#f3eee5]/50 transition-colors">
                     <td className="py-2.5 font-mono text-[#788699] font-bold">#{int.item_id}</td>
-                    <td className="py-2.5 font-bold text-[#0b192c]">{int.title}</td>
+                    <td className="py-2.5 font-bold text-[#0b192c]">
+                      <div className="flex items-center space-x-2.5">
+                        <div className="w-6 h-9 rounded-[5px] overflow-hidden bg-[#f3eee5] border border-[rgba(11,25,44,0.06)] flex-shrink-0 flex items-center justify-center shadow-2xs">
+                          {int.poster_url ? (
+                            <img
+                              src={int.poster_url}
+                              alt={int.title}
+                              className="w-full h-full object-cover"
+                              loading="lazy"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                                const fallback = e.currentTarget.nextElementSibling;
+                                if (fallback) (fallback as HTMLElement).style.display = "flex";
+                              }}
+                            />
+                          ) : null}
+                          <div className={`w-full h-full items-center justify-center bg-[#f3eee5] ${int.poster_url ? "hidden" : "flex"}`}>
+                            <Film className="w-3 h-3 text-[#788699]/60" />
+                          </div>
+                        </div>
+                        <span className="truncate">{int.title}</span>
+                      </div>
+                    </td>
                     <td className="py-2.5">
                       <span className="px-2.5 py-0.5 rounded-full text-[11px] bg-[#f3eee5] text-[#475569] border border-[rgba(11,25,44,0.08)] font-semibold">
                         {int.primary_category}

@@ -10,6 +10,7 @@ import {
   AlertCircle,
   Sliders,
   Zap,
+  Film,
 } from "lucide-react";
 import { api, RecommendationResult } from "../services/api";
 
@@ -286,31 +287,63 @@ export const PlaygroundTab: React.FC = () => {
                 className="p-5 rounded-[16px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05),0_1px_2px_rgba(11,25,44,0.03)] hover:border-[#ff5a5f] hover:shadow-[0_4px_20px_-2px_rgba(11,25,44,0.08)] hover:translate-x-1 transition-all flex flex-col justify-between space-y-4"
               >
                 <div>
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="w-7 h-7 rounded-[10px] bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] flex items-center justify-center text-xs font-mono font-black text-[#0b192c] flex-shrink-0 tabular-nums">
-                      {item.rank}
-                    </span>
+                  <div className="flex items-start gap-3.5">
+                    {/* Movie Poster Thumbnail with Tactile Fallback */}
+                    <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-[10px] overflow-hidden bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] flex-shrink-0 relative shadow-xs flex items-center justify-center">
+                      {item.poster_url ? (
+                        <img
+                          src={item.poster_url}
+                          alt={item.title}
+                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                            const fallback = e.currentTarget.nextElementSibling;
+                            if (fallback) (fallback as HTMLElement).style.display = "flex";
+                          }}
+                        />
+                      ) : null}
+                      <div
+                        className={`w-full h-full flex flex-col items-center justify-center p-1 text-center bg-[#f3eee5] ${
+                          item.poster_url ? "hidden" : "flex"
+                        }`}
+                      >
+                        <Film className="w-5 h-5 text-[#788699]/60 mb-1" />
+                        <span className="text-[9px] font-mono text-[#788699] font-bold leading-tight">
+                          {item.release_year || "Movie"}
+                        </span>
+                      </div>
+                    </div>
+
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-extrabold text-[#0b192c] truncate tracking-tight" title={item.title}>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="w-6 h-6 rounded-[8px] bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] flex items-center justify-center text-[11px] font-mono font-black text-[#0b192c] flex-shrink-0 tabular-nums">
+                          {item.rank}
+                        </span>
+                        <span className="inline-flex items-center space-x-1 text-xs font-bold text-[#0b192c] bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] px-2.5 py-0.5 rounded-full tabular-nums flex-shrink-0">
+                          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                          <span>{item.average_rating}</span>
+                        </span>
+                      </div>
+
+                      <h4 className="text-sm font-extrabold text-[#0b192c] tracking-tight mt-1.5 line-clamp-2" title={item.title}>
                         {item.title}
                       </h4>
-                      <p className="text-xs text-[#788699] tabular-nums font-mono font-medium">{item.release_year}</p>
-                    </div>
-                    <span className="inline-flex items-center space-x-1 text-xs font-bold text-[#0b192c] bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] px-2.5 py-0.5 rounded-full tabular-nums flex-shrink-0">
-                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                      <span>{item.average_rating}</span>
-                    </span>
-                  </div>
+                      <p className="text-xs text-[#788699] tabular-nums font-mono font-medium mt-0.5">
+                        {item.release_year} &bull; {item.primary_category}
+                      </p>
 
-                  <div className="flex flex-wrap gap-1.5 mt-3.5">
-                    {item.categories.map((c, i) => (
-                      <span
-                        key={i}
-                        className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#f3eee5] text-[#475569] border border-[rgba(11,25,44,0.08)] font-semibold"
-                      >
-                        {c}
-                      </span>
-                    ))}
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {item.categories.slice(0, 3).map((c, i) => (
+                          <span
+                            key={i}
+                            className="text-[10px] px-2 py-0.5 rounded-full bg-[#f3eee5] text-[#475569] border border-[rgba(11,25,44,0.08)] font-semibold"
+                          >
+                            {c}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
                   {item.reason && (

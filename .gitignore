@@ -46,6 +46,7 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+!data/processed/movie_posters.json
 data/features/*
 !data/features/.gitkeep
 models/retrieval/*.bin

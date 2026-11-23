@@ -11,8 +11,10 @@ from backend.api.schemas.api_schemas import (
     PopularItem,
     PopularCategory,
 )
+from backend.features.fetch_movie_posters import load_movie_posters
 
 router = APIRouter(prefix="/analytics", tags=["Analytics"])
+posters_map = load_movie_posters()
 
 
 @router.get("/overview", response_model=OverviewAnalyticsResponse)
@@ -44,6 +46,7 @@ def get_analytics_overview():
             primary_category=str(r.get("primary_category", "Unknown")),
             rating_count=int(r.get("item_interaction_count", 0)),
             average_rating=round(float(r.get("item_avg_rating", 3.0)), 2),
+            poster_url=posters_map.get(str(r["item_id"])),
         )
         for _, r in top_items_df.iterrows()
     ]

@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 import pandas as pd
 
 from backend.config.config import settings
+from backend.features.fetch_movie_posters import load_movie_posters
 from backend.api.schemas.api_schemas import (
     UserProfileResponse,
     UserHistoryResponse,
@@ -78,6 +79,7 @@ def get_user_history(user_id: str, limit: int = 20):
     )
 
     history_items = []
+    posters_map = load_movie_posters()
     for _, row in user_ints.iterrows():
         i_id = str(row["item_id"])
         item_title = f"Item {i_id}"
@@ -95,6 +97,7 @@ def get_user_history(user_id: str, limit: int = 20):
                 rating=float(row.get("rating", 3.0)),
                 timestamp=int(row.get("timestamp", 0)),
                 recency_days=round(float(row.get("recency_days", 0.0)), 1),
+                poster_url=posters_map.get(i_id),
             )
         )
 

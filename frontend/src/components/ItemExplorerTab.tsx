@@ -83,18 +83,47 @@ export const ItemExplorerTab: React.FC = () => {
 
       {item && (
         <div className="p-6 rounded-[20px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_4px_20px_-2px_rgba(11,25,44,0.05)] space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[rgba(11,25,44,0.06)] pb-5">
-            <div>
-              <div className="text-xs font-mono font-extrabold text-[#788699]">ITEM #{item.item_id}</div>
-              <h3 className="text-xl font-extrabold text-[#0b192c] mt-1 tracking-tight">{item.title}</h3>
-              <p className="text-xs text-[#788699] mt-1 font-mono font-medium">Release Year: {item.release_year}</p>
+          <div className="flex flex-col sm:flex-row sm:items-start gap-5 border-b border-[rgba(11,25,44,0.06)] pb-5">
+            {/* Poster Card */}
+            <div className="w-24 h-36 sm:w-28 sm:h-40 rounded-[12px] overflow-hidden bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] flex-shrink-0 relative shadow-sm flex items-center justify-center">
+              {item.poster_url ? (
+                <img
+                  src={item.poster_url}
+                  alt={item.title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    const fallback = e.currentTarget.nextElementSibling;
+                    if (fallback) (fallback as HTMLElement).style.display = "flex";
+                  }}
+                />
+              ) : null}
+              <div
+                className={`w-full h-full flex flex-col items-center justify-center p-2 text-center bg-[#f3eee5] ${
+                  item.poster_url ? "hidden" : "flex"
+                }`}
+              >
+                <Film className="w-8 h-8 text-[#788699]/50 mb-1" />
+                <span className="text-[10px] font-mono text-[#788699] font-bold">
+                  {item.release_year || "Movie"}
+                </span>
+              </div>
             </div>
 
-            <div className="text-left sm:text-right">
-              <div className="text-xs text-[#788699] font-medium">Catalog Mean Rating</div>
-              <div className="text-xl font-black text-[#0b192c] flex items-center sm:justify-end space-x-1 mt-0.5 tabular-nums">
-                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                <span>{item.average_rating}</span>
+            <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div>
+                <div className="text-xs font-mono font-extrabold text-[#788699]">ITEM #{item.item_id}</div>
+                <h3 className="text-xl font-extrabold text-[#0b192c] mt-1 tracking-tight">{item.title}</h3>
+                <p className="text-xs text-[#788699] mt-1 font-mono font-medium">Release Year: {item.release_year}</p>
+              </div>
+
+              <div className="text-left sm:text-right">
+                <div className="text-xs text-[#788699] font-medium">Catalog Mean Rating</div>
+                <div className="text-xl font-black text-[#0b192c] flex items-center sm:justify-end space-x-1 mt-0.5 tabular-nums">
+                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  <span>{item.average_rating}</span>
+                </div>
               </div>
             </div>
           </div>

@@ -28,6 +28,7 @@ class RecommendationItem(BaseModel):
     strategy: str
     reason: Optional[str] = None
     rank: int
+    poster_url: Optional[str] = None
 
 
 class RecommendationResponse(BaseModel):
@@ -57,6 +58,7 @@ class UserHistoryItem(BaseModel):
     rating: float
     timestamp: int
     recency_days: float
+    poster_url: Optional[str] = None
 
 
 class UserHistoryResponse(BaseModel):
@@ -82,6 +84,7 @@ class ItemDetailResponse(BaseModel):
     average_rating: float
     interaction_count: int
     popularity_score: float
+    poster_url: Optional[str] = None
 
 
 class PopularItem(BaseModel):
@@ -90,6 +93,7 @@ class PopularItem(BaseModel):
     primary_category: str
     rating_count: int
     average_rating: float
+    poster_url: Optional[str] = None
 
 
 class PopularCategory(BaseModel):

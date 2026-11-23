@@ -211,7 +211,27 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ overview, health }) =>
                     <tr key={item.item_id} className="hover:bg-[#f3eee5]/50 transition-colors">
                       <td className="py-2.5 text-[#788699] font-mono tabular-nums font-bold">{idx + 1}</td>
                       <td className="py-2.5 font-bold text-[#0b192c] max-w-xs truncate" title={item.title}>
-                        {item.title}
+                        <div className="flex items-center space-x-2.5">
+                          <div className="w-7 h-10 rounded-[6px] overflow-hidden bg-[#f3eee5] border border-[rgba(11,25,44,0.06)] flex-shrink-0 flex items-center justify-center shadow-2xs">
+                            {item.poster_url ? (
+                              <img
+                                src={item.poster_url}
+                                alt={item.title}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = "none";
+                                  const fallback = e.currentTarget.nextElementSibling;
+                                  if (fallback) (fallback as HTMLElement).style.display = "flex";
+                                }}
+                              />
+                            ) : null}
+                            <div className={`w-full h-full items-center justify-center bg-[#f3eee5] ${item.poster_url ? "hidden" : "flex"}`}>
+                              <Film className="w-3.5 h-3.5 text-[#788699]/60" />
+                            </div>
+                          </div>
+                          <span className="truncate">{item.title}</span>
+                        </div>
                       </td>
                       <td className="py-2.5">
                         <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#f3eee5] text-[#475569] border border-[rgba(11,25,44,0.08)]">

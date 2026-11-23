@@ -92,7 +92,7 @@ export function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
             <span className="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_rgba(16,185,129,0.35)] inline-block" />
-            <span className="font-bold text-[#0b192c]">Recommendation Engine Console</span>
+            <span className="font-bold text-[#0b192c]">Recommendation Engine</span>
             <span className="text-[rgba(11,25,44,0.15)]">|</span>
             <span className="font-mono text-[11px] text-[#788699]">Core Runtime 2.16.2</span>
           </div>

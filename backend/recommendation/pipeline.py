@@ -19,6 +19,7 @@ from backend.vector_search.faiss_index import faiss_manager
 from backend.serving.triton_client import serving_client
 from backend.recommendation.cold_start.cold_start_recommender import cold_start_recommender
 from backend.caching.redis_cache import cache_service
+from backend.features.fetch_movie_posters import load_movie_posters
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -31,6 +32,7 @@ class RecommendationPipeline:
         self.user_features_df: Optional[pd.DataFrame] = None
         self.item_features_df: Optional[pd.DataFrame] = None
         self.user_history_map: Dict[str, Set[str]] = {}
+        self.posters_map: Dict[str, str] = load_movie_posters()
         self._load_feature_tables()
 
     def _load_feature_tables(self) -> None:
@@ -203,6 +205,7 @@ class RecommendationPipeline:
                     "retrieval_score": round(float(ret_score), 4),
                     "ranking_score": round(float(rank_score), 4),
                     "strategy": f"two_stage_{ranking_model_type}",
+                    "poster_url": self.posters_map.get(str(cid)),
                 })
 
             # Sort descending by deep ranking score
@@ -222,6 +225,8 @@ class RecommendationPipeline:
 
         for rank_num, rec in enumerate(final_recommendations, start=1):
             rec["rank"] = rank_num
+            if "poster_url" not in rec or not rec["poster_url"]:
+                rec["poster_url"] = self.posters_map.get(str(rec.get("item_id")))
 
         total_duration = round((time.time() - start_time) * 1000, 2)
 
