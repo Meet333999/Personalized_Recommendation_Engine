@@ -9,7 +9,6 @@ import {
   Cpu,
   Trash2,
   RefreshCw,
-  Terminal,
 } from "lucide-react";
 import { HealthData } from "../services/api";
 import { motion } from "framer-motion";
@@ -45,24 +44,11 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header className="sticky top-0 z-50 bg-[#faf7f2]/92 backdrop-blur-xl border-b border-[rgba(11,25,44,0.08)] shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-[58px]">
-          {/* Brand with PyMaster Coral accent */}
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-[12px] bg-[#ff5a5f] text-white flex items-center justify-center shadow-[0_4px_14px_rgba(255,90,95,0.30)]">
-              <Terminal className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-extrabold text-[#0b192c] tracking-tight">
-                  Recommendation Engine
-                </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold bg-[#ff5a5f]/10 text-[#ff5a5f] border border-[#ff5a5f]/25">
-                  CONSOLE
-                </span>
-              </div>
-              <span className="block text-[11px] text-[#788699] font-medium">
-                Candidate Retrieval & Neural Ranking Environment
-              </span>
-            </div>
+          {/* Main Heading */}
+          <div className="flex items-center">
+            <h1 className="text-base font-extrabold text-[#0b192c] tracking-tight">
+              Recommendation Engine
+            </h1>
           </div>
 
           {/* Telemetry and Controls */}
