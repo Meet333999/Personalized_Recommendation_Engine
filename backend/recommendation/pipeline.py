@@ -20,6 +20,7 @@ from backend.serving.triton_client import serving_client
 from backend.recommendation.cold_start.cold_start_recommender import cold_start_recommender
 from backend.caching.redis_cache import cache_service
 from backend.features.fetch_movie_posters import load_movie_posters
+from backend.features.fetch_movie_descriptions import load_movie_descriptions
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -33,6 +34,7 @@ class RecommendationPipeline:
         self.item_features_df: Optional[pd.DataFrame] = None
         self.user_history_map: Dict[str, Set[str]] = {}
         self.posters_map: Dict[str, str] = load_movie_posters()
+        self.descriptions_map: Dict[str, str] = load_movie_descriptions()
         self._load_feature_tables()
 
     def _load_feature_tables(self) -> None:
@@ -80,6 +82,8 @@ class RecommendationPipeline:
             for rec in cached_result:
                 if not rec.get("poster_url"):
                     rec["poster_url"] = self.posters_map.get(str(rec.get("item_id")))
+                if not rec.get("description"):
+                    rec["description"] = self.descriptions_map.get(str(rec.get("item_id")))
             total_duration = round((time.time() - start_time) * 1000, 2)
             return {
                 "user_id": user_id_str,
@@ -209,6 +213,7 @@ class RecommendationPipeline:
                     "ranking_score": round(float(rank_score), 4),
                     "strategy": f"two_stage_{ranking_model_type}",
                     "poster_url": self.posters_map.get(str(cid)),
+                    "description": self.descriptions_map.get(str(cid)),
                 })
 
             # Sort descending by deep ranking score
@@ -230,6 +235,8 @@ class RecommendationPipeline:
             rec["rank"] = rank_num
             if "poster_url" not in rec or not rec["poster_url"]:
                 rec["poster_url"] = self.posters_map.get(str(rec.get("item_id")))
+            if "description" not in rec or not rec["description"]:
+                rec["description"] = self.descriptions_map.get(str(rec.get("item_id")))
 
         total_duration = round((time.time() - start_time) * 1000, 2)
 

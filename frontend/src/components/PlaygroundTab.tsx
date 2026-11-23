@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SlidersHorizontal,
   Clock,
@@ -11,8 +11,11 @@ import {
   Sliders,
   Zap,
   Film,
+  X,
+  Maximize2,
 } from "lucide-react";
-import { api, RecommendationResult } from "../services/api";
+import { motion, AnimatePresence } from "framer-motion";
+import { api, RecommendationResult, RecommendationItem } from "../services/api";
 
 const PRESET_USERS = [
   { id: "1", label: "User 1 (Active)" },
@@ -47,6 +50,25 @@ export const PlaygroundTab: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<RecommendationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<RecommendationItem | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedItem(null);
+      }
+    };
+    if (selectedItem) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedItem]);
 
   const handleRecommend = async () => {
     setLoading(true);
@@ -282,9 +304,13 @@ export const PlaygroundTab: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {result.recommendations.map((item) => (
-              <div
+              <motion.div
+                layoutId={`rec-card-${item.item_id}`}
                 key={item.item_id}
-                className="p-5 rounded-[16px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05),0_1px_2px_rgba(11,25,44,0.03)] hover:border-[#ff5a5f] hover:shadow-[0_4px_20px_-2px_rgba(11,25,44,0.08)] hover:translate-x-1 transition-all flex flex-col justify-between space-y-4"
+                onClick={() => setSelectedItem(item)}
+                whileHover={{ y: -3, transition: { duration: 0.15 } }}
+                whileTap={{ scale: 0.98 }}
+                className="p-5 rounded-[16px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05),0_1px_2px_rgba(11,25,44,0.03)] hover:border-[#ff5a5f] hover:shadow-[0_8px_25px_-4px_rgba(255,90,95,0.15)] transition-colors flex flex-col justify-between space-y-4 cursor-pointer group relative select-none"
               >
                 <div>
                   <div className="flex items-start gap-3.5">
@@ -294,7 +320,7 @@ export const PlaygroundTab: React.FC = () => {
                         <img
                           src={item.poster_url}
                           alt={item.title}
-                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           loading="lazy"
                           referrerPolicy="no-referrer"
                           onError={(e) => {
@@ -321,13 +347,18 @@ export const PlaygroundTab: React.FC = () => {
                         <span className="w-6 h-6 rounded-[8px] bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] flex items-center justify-center text-[11px] font-mono font-black text-[#0b192c] flex-shrink-0 tabular-nums">
                           {item.rank}
                         </span>
-                        <span className="inline-flex items-center space-x-1 text-xs font-bold text-[#0b192c] bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] px-2.5 py-0.5 rounded-full tabular-nums flex-shrink-0">
-                          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                          <span>{item.average_rating}</span>
-                        </span>
+                        <div className="flex items-center space-x-1.5">
+                          <span className="inline-flex items-center space-x-1 text-xs font-bold text-[#0b192c] bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] px-2.5 py-0.5 rounded-full tabular-nums flex-shrink-0">
+                            <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                            <span>{item.average_rating}</span>
+                          </span>
+                          <span className="w-6 h-6 rounded-[8px] bg-transparent group-hover:bg-[#ff5a5f]/10 text-[#788699] group-hover:text-[#ff5a5f] flex items-center justify-center transition-colors">
+                            <Maximize2 className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
                       </div>
 
-                      <h4 className="text-sm font-extrabold text-[#0b192c] tracking-tight mt-1.5 line-clamp-2" title={item.title}>
+                      <h4 className="text-sm font-extrabold text-[#0b192c] tracking-tight mt-1.5 line-clamp-2 group-hover:text-[#ff5a5f] transition-colors" title={item.title}>
                         {item.title}
                       </h4>
                       <p className="text-xs text-[#788699] tabular-nums font-mono font-medium mt-0.5">
@@ -350,7 +381,7 @@ export const PlaygroundTab: React.FC = () => {
                   {item.reason && (
                     <div className="mt-3.5 text-xs text-[#475569] flex items-start space-x-1.5 bg-[#f3eee5]/80 p-2.5 rounded-[12px] border border-[rgba(11,25,44,0.06)] font-medium">
                       <Info className="w-3.5 h-3.5 text-[#ff5a5f] flex-shrink-0 mt-0.5" />
-                      <span>{item.reason}</span>
+                      <span className="line-clamp-1">{item.reason}</span>
                     </div>
                   )}
                 </div>
@@ -366,11 +397,178 @@ export const PlaygroundTab: React.FC = () => {
                     <div className="font-black text-[#ff5a5f] tabular-nums font-mono text-sm mt-0.5">{item.ranking_score.toFixed(4)}</div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       )}
+
+      {/* Expanded Movie Card Popup Modal with Smooth Spring Transition */}
+      <AnimatePresence>
+        {selectedItem && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setSelectedItem(null)}
+              className="fixed inset-0 bg-[#0b192c]/50 backdrop-blur-md cursor-pointer"
+            />
+
+            {/* Expanded Modal Box */}
+            <motion.div
+              layoutId={`rec-card-${selectedItem.item_id}`}
+              transition={{ type: "spring", stiffness: 360, damping: 32 }}
+              className="relative z-10 w-full max-w-xl bg-white rounded-[24px] border border-[rgba(11,25,44,0.12)] shadow-[0_24px_60px_-12px_rgba(11,25,44,0.30)] overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedItem(null)}
+                className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-[#f3eee5] hover:bg-[#ff5a5f] hover:text-white text-[#0b192c] flex items-center justify-center transition-all cursor-pointer shadow-xs border border-[rgba(11,25,44,0.08)] active:scale-95"
+                title="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="p-6 sm:p-7 space-y-5 max-h-[85vh] overflow-y-auto">
+                {/* Header with Poster & Core Attributes */}
+                <div className="flex items-start gap-5">
+                  {/* Expanded Movie Poster */}
+                  <div className="w-24 sm:w-28 aspect-[2/3] rounded-[14px] overflow-hidden bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] flex-shrink-0 relative shadow-sm flex items-center justify-center">
+                    {selectedItem.poster_url ? (
+                      <img
+                        src={selectedItem.poster_url}
+                        alt={selectedItem.title}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                          const fallback = e.currentTarget.nextElementSibling;
+                          if (fallback) (fallback as HTMLElement).style.display = "flex";
+                        }}
+                      />
+                    ) : null}
+                    <div
+                      className={`w-full h-full flex flex-col items-center justify-center p-2 text-center bg-[#f3eee5] ${
+                        selectedItem.poster_url ? "hidden" : "flex"
+                      }`}
+                    >
+                      <Film className="w-8 h-8 text-[#788699]/50 mb-1" />
+                      <span className="text-[10px] font-mono text-[#788699] font-bold">
+                        {selectedItem.release_year || "Movie"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Title and Metadata */}
+                  <div className="flex-1 min-w-0 pr-6">
+                    <div className="flex items-center space-x-2">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-extrabold bg-[#ff5a5f]/10 text-[#ff5a5f] border border-[#ff5a5f]/25">
+                        RANK #{selectedItem.rank}
+                      </span>
+                      <span className="text-xs font-mono text-[#788699]">ITEM #{selectedItem.item_id}</span>
+                    </div>
+
+                    <h3 className="text-lg sm:text-xl font-extrabold text-[#0b192c] tracking-tight mt-1.5 leading-snug">
+                      {selectedItem.title}
+                    </h3>
+
+                    <div className="flex items-center space-x-3 text-xs text-[#788699] font-mono mt-1.5">
+                      <span>{selectedItem.release_year}</span>
+                      <span>&bull;</span>
+                      <span>{selectedItem.primary_category}</span>
+                      <span>&bull;</span>
+                      <span className="inline-flex items-center space-x-1 text-[#0b192c] font-bold">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                        <span>{selectedItem.average_rating}</span>
+                      </span>
+                    </div>
+
+                    {/* Categorical tags */}
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {selectedItem.categories.map((c, i) => (
+                        <span
+                          key={i}
+                          className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#f3eee5] text-[#475569] border border-[rgba(11,25,44,0.08)] font-semibold"
+                        >
+                          {c}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Movie Description Section */}
+                <div className="bg-[#f3eee5]/80 p-4 rounded-[16px] border border-[rgba(11,25,44,0.06)] space-y-1.5">
+                  <div className="flex items-center space-x-1.5 text-xs font-mono font-extrabold text-[#ff5a5f] uppercase tracking-wider">
+                    <Film className="w-3.5 h-3.5" />
+                    <span>SYNOPSIS</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#334155] leading-relaxed font-sans">
+                    {selectedItem.description ||
+                      `A celebrated ${selectedItem.release_year} ${selectedItem.primary_category} title renowned for engaging narrative depth, character chemistry, and high acclaim among genre audiences.`}
+                  </p>
+                </div>
+
+                {/* Recommendation Reason Context */}
+                {selectedItem.reason && (
+                  <div className="text-xs text-[#475569] flex items-start space-x-2 bg-white p-3 rounded-[12px] border border-[rgba(11,25,44,0.08)] shadow-2xs">
+                    <Info className="w-4 h-4 text-[#ff5a5f] flex-shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-[#0b192c]">Recommendation Insight: </span>
+                      <span>{selectedItem.reason}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Scoring Breakdown & Model Telemetry */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+                  <div className="bg-[#f3eee5]/80 p-3 rounded-[12px] border border-[rgba(11,25,44,0.06)]">
+                    <div className="text-[#788699] text-[10px] font-bold font-mono">RETRIEVAL COSINE</div>
+                    <div className="font-extrabold text-[#0b192c] tabular-nums font-mono text-sm mt-0.5">
+                      {selectedItem.retrieval_score.toFixed(4)}
+                    </div>
+                    <div className="text-[10px] text-[#788699] mt-0.5">FAISS Vector Search</div>
+                  </div>
+
+                  <div className="bg-[#ff5a5f]/10 p-3 rounded-[12px] border border-[#ff5a5f]/25">
+                    <div className="text-[#ff5a5f] text-[10px] font-extrabold font-mono">RANKING PROB</div>
+                    <div className="font-black text-[#ff5a5f] tabular-nums font-mono text-sm mt-0.5">
+                      {selectedItem.ranking_score.toFixed(4)}
+                    </div>
+                    <div className="text-[10px] text-[#ff5a5f]/80 mt-0.5">Calibrated Deep Ranker</div>
+                  </div>
+
+                  <div className="bg-[#f3eee5]/80 p-3 rounded-[12px] border border-[rgba(11,25,44,0.06)] col-span-2 sm:col-span-1">
+                    <div className="text-[#788699] text-[10px] font-bold font-mono">POPULARITY INDEX</div>
+                    <div className="font-extrabold text-[#0b192c] tabular-nums font-mono text-sm mt-0.5">
+                      {(selectedItem.popularity_score * 100).toFixed(1)}%
+                    </div>
+                    <div className="text-[10px] text-[#788699] mt-0.5">{selectedItem.interaction_count} total ratings</div>
+                  </div>
+                </div>
+
+                {/* Modal Footer */}
+                <div className="pt-2 border-t border-[rgba(11,25,44,0.06)] flex items-center justify-between">
+                  <span className="text-[11px] font-mono text-[#788699]">
+                    Pipeline: <span className="font-bold text-[#0b192c] capitalize">{selectedItem.strategy.replace(/_/g, " ")}</span>
+                  </span>
+                  <button
+                    onClick={() => setSelectedItem(null)}
+                    className="px-4 py-2 bg-[#ff5a5f] hover:bg-[#e84e53] text-white text-xs font-bold rounded-[10px] transition-all cursor-pointer shadow-[0_2px_10px_rgba(255,90,95,0.30)] active:scale-95"
+                  >
+                    Close Preview
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

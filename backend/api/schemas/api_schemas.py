@@ -29,6 +29,7 @@ class RecommendationItem(BaseModel):
     reason: Optional[str] = None
     rank: int
     poster_url: Optional[str] = None
+    description: Optional[str] = None
 
 
 class RecommendationResponse(BaseModel):
@@ -85,6 +86,7 @@ class ItemDetailResponse(BaseModel):
     interaction_count: int
     popularity_score: float
     poster_url: Optional[str] = None
+    description: Optional[str] = None
 
 
 class PopularItem(BaseModel):

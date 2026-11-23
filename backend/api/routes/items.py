@@ -6,9 +6,11 @@ import pandas as pd
 from backend.config.config import settings
 from backend.api.schemas.api_schemas import ItemDetailResponse
 from backend.features.fetch_movie_posters import load_movie_posters
+from backend.features.fetch_movie_descriptions import load_movie_descriptions
 
 router = APIRouter(prefix="/items", tags=["Items"])
 posters_map = load_movie_posters()
+descriptions_map = load_movie_descriptions()
 
 
 @router.get("/{item_id}", response_model=ItemDetailResponse)
@@ -41,4 +43,5 @@ def get_item_detail(item_id: str):
         interaction_count=int(row.get("item_interaction_count", 0)),
         popularity_score=round(float(row.get("item_popularity_score", 0.0)), 3),
         poster_url=posters_map.get(str(row["item_id"])),
+        description=descriptions_map.get(str(row["item_id"])),
     )
