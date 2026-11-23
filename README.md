@@ -231,7 +231,7 @@ cd recommendation-engine
 
 # 2. Setup environment
 cp .env.example .env
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 
 # 3. Build frontend
 cd frontend

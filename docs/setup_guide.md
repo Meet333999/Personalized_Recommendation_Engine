@@ -23,7 +23,7 @@ cd recommendation-engine
 cp .env.example .env
 
 # Install Python dependencies
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
 ### Step B: Build Frontend Application

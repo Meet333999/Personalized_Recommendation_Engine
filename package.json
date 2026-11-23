@@ -1,0 +1,9 @@
+{
+  "name": "personalized-recommendation-engine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Large-Scale Two-Stage Personalized Recommendation Engine Dashboard",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build"
+  }
+}

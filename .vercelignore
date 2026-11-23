@@ -1,0 +1,9 @@
+# Ignore Python backend, data, models, and orchestration during Vercel builds
+backend/
+airflow/
+data/
+models/
+tests/
+docker/
+docker-compose.yml
+PROJECT_PROGRESS.md
