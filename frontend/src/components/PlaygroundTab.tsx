@@ -296,6 +296,7 @@ export const PlaygroundTab: React.FC = () => {
                           alt={item.title}
                           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                           loading="lazy"
+                          referrerPolicy="no-referrer"
                           onError={(e) => {
                             e.currentTarget.style.display = "none";
                             const fallback = e.currentTarget.nextElementSibling;

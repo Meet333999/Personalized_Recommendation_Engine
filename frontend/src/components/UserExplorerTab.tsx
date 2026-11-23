@@ -177,6 +177,7 @@ export const UserExplorerTab: React.FC = () => {
                               alt={int.title}
                               className="w-full h-full object-cover"
                               loading="lazy"
+                              referrerPolicy="no-referrer"
                               onError={(e) => {
                                 e.currentTarget.style.display = "none";
                                 const fallback = e.currentTarget.nextElementSibling;

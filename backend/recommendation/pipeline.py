@@ -77,6 +77,9 @@ class RecommendationPipeline:
             exclude_watched=exclude_watched,
         )
         if cached_result is not None:
+            for rec in cached_result:
+                if not rec.get("poster_url"):
+                    rec["poster_url"] = self.posters_map.get(str(rec.get("item_id")))
             total_duration = round((time.time() - start_time) * 1000, 2)
             return {
                 "user_id": user_id_str,
