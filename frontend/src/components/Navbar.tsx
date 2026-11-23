@@ -42,24 +42,24 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isHealthy = health?.status === "healthy";
 
   return (
-    <header className="border-b border-[#EAE5DC] bg-white sticky top-0 z-50 shadow-2xs">
+    <header className="sticky top-0 z-50 bg-[#faf7f2]/92 backdrop-blur-xl border-b border-[rgba(11,25,44,0.08)] shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-15">
+        <div className="flex items-center justify-between h-[58px]">
           {/* Brand with PyMaster Coral accent */}
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-lg bg-[#F05A36] text-white flex items-center justify-center shadow-xs">
+            <div className="w-8 h-8 rounded-[12px] bg-[#ff5a5f] text-white flex items-center justify-center shadow-[0_4px_14px_rgba(255,90,95,0.30)]">
               <Terminal className="w-4 h-4 text-white" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-sm font-bold text-[#1C1917] tracking-tight">
+                <span className="text-sm font-extrabold text-[#0b192c] tracking-tight">
                   Recommendation Engine
                 </span>
-                <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-semibold bg-[#FFF0EB] text-[#D93815] border border-[#FCDAD1]">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold bg-[#ff5a5f]/10 text-[#ff5a5f] border border-[#ff5a5f]/25">
                   CONSOLE
                 </span>
               </div>
-              <span className="block text-[11px] text-[#78716C]">
+              <span className="block text-[11px] text-[#788699] font-medium">
                 Candidate Retrieval & Neural Ranking Environment
               </span>
             </div>
@@ -68,49 +68,51 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Telemetry and Controls */}
           <div className="flex items-center space-x-3 text-xs">
             {/* Status Telemetry Pill with Green Preserved */}
-            <div className="hidden sm:flex items-center space-x-2.5 bg-[#FAF8F5] border border-[#EAE5DC] px-3 py-1.5 rounded-lg text-[#57534E]">
+            <div className="hidden sm:flex items-center space-x-2.5 bg-white border border-[rgba(11,25,44,0.08)] px-3.5 py-1.5 rounded-full shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05),0_1px_2px_rgba(11,25,44,0.03)] text-[#475569]">
               <span
                 className={`inline-flex rounded-full h-2 w-2 ${
-                  isHealthy ? "bg-emerald-500" : "bg-amber-500"
+                  isHealthy
+                    ? "bg-[#10b981] shadow-[0_0_8px_rgba(16,185,129,0.35)]"
+                    : "bg-[#ef4444] shadow-[0_0_8px_rgba(239,68,68,0.35)]"
                 }`}
               />
-              <span className="font-semibold text-emerald-800">
+              <span className="font-bold text-[#0b192c]">
                 {isHealthy ? "Ready" : "Degraded"}
               </span>
-              <span className="text-[#D6D1C7]">|</span>
-              <span className="tabular-nums font-mono text-[#57534E]">
+              <span className="text-[rgba(11,25,44,0.15)]">|</span>
+              <span className="tabular-nums font-mono text-[#475569] font-medium">
                 {health?.vector_search?.total_items?.toLocaleString() || 0} vectors
               </span>
-              <span className="text-[#D6D1C7]">|</span>
-              <span className="tabular-nums font-mono text-emerald-700 font-semibold">
+              <span className="text-[rgba(11,25,44,0.15)]">|</span>
+              <span className="tabular-nums font-mono text-[#10b981] font-bold">
                 {health?.cache?.hit_ratio_percent || 0}% hit
               </span>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center space-x-1 pl-2 border-l border-[#EAE5DC]">
+            <div className="flex items-center space-x-1.5 pl-2 border-l border-[rgba(11,25,44,0.08)]">
               <button
                 onClick={onClearCache}
                 title="Clear Cache Buffer"
-                className="p-1.5 text-[#78716C] hover:text-[#1C1917] hover:bg-[#F5F2EB] rounded-md transition-colors"
+                className="w-8 h-8 rounded-full bg-white border border-[rgba(11,25,44,0.08)] shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05)] flex items-center justify-center text-[#788699] hover:text-[#0b192c] hover:border-[#ff5a5f] hover:-translate-y-0.5 active:scale-95 transition-all"
                 aria-label="Flush Cache"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={onRefresh}
                 title="Refresh Metrics"
-                className="p-1.5 text-[#78716C] hover:text-[#1C1917] hover:bg-[#F5F2EB] rounded-md transition-colors"
+                className="w-8 h-8 rounded-full bg-white border border-[rgba(11,25,44,0.08)] shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05)] flex items-center justify-center text-[#788699] hover:text-[#0b192c] hover:border-[#ff5a5f] hover:-translate-y-0.5 active:scale-95 transition-all"
                 aria-label="Refresh Data"
               >
-                <RefreshCw className="w-4 h-4" />
+                <RefreshCw className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Coral Active Tab Indicator */}
-        <nav className="flex space-x-1 overflow-x-auto pt-1 pb-2 scrollbar-none relative border-t border-[#F5F2EB]">
+        {/* PyMaster Nav Tabs */}
+        <nav className="flex space-x-1.5 overflow-x-auto pt-1.5 pb-2.5 scrollbar-none relative border-t border-[rgba(11,25,44,0.06)]">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -118,22 +120,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex items-center space-x-2 px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap z-10 ${
+                className={`relative flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-xs transition-all whitespace-nowrap z-10 ${
                   isActive
-                    ? "text-[#D93815] font-semibold"
-                    : "text-[#57534E] hover:text-[#1C1917] hover:bg-[#F5F2EB]"
+                    ? "text-[#faf7f2] font-bold shadow-[0_2px_8px_rgba(11,25,44,0.15)] bg-[#0b192c] border border-[#0b192c]"
+                    : "text-[#475569] font-semibold hover:text-[#0b192c] hover:bg-white/80 border border-transparent hover:border-[rgba(11,25,44,0.08)] hover:shadow-xs"
                 }`}
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeTabIndicator"
-                    className="absolute inset-0 bg-[#FFF0EB] border border-[#FCDAD1] rounded-md -z-10"
-                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                  />
-                )}
                 <Icon
                   className={`w-3.5 h-3.5 ${
-                    isActive ? "text-[#F05A36]" : "text-[#A8A29E]"
+                    isActive ? "text-[#ff5a5f]" : "text-[#788699]"
                   }`}
                 />
                 <span>{tab.label}</span>

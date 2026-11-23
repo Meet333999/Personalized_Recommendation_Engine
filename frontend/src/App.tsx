@@ -46,7 +46,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1C1917] flex flex-col font-sans selection:bg-[#F05A36]/15">
+    <div className="min-h-screen bg-[#faf7f2] text-[#0b192c] flex flex-col font-sans selection:bg-[#ff5a5f]/20">
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -62,16 +62,16 @@ export function App() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.15 }}
-            className={`px-4 py-2 text-xs font-medium border-b flex items-center justify-center space-x-2 z-40 ${
+            className={`px-4 py-2 text-xs font-semibold border-b flex items-center justify-center space-x-2 z-40 ${
               banner.type === "success"
                 ? "bg-emerald-50 border-emerald-200 text-emerald-800"
                 : "bg-rose-50 border-rose-200 text-rose-800"
             }`}
           >
             {banner.type === "success" ? (
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#10b981] flex-shrink-0" />
             ) : (
-              <AlertCircle className="w-3.5 h-3.5 text-rose-600 flex-shrink-0" />
+              <AlertCircle className="w-3.5 h-3.5 text-[#ef4444] flex-shrink-0" />
             )}
             <span>{banner.text}</span>
           </motion.div>
@@ -88,18 +88,18 @@ export function App() {
         {activeTab === "architecture" && <ArchitectureTab />}
       </main>
 
-      <footer className="border-t border-[#EAE5DC] bg-white py-4 text-xs text-[#78716C]">
+      <footer className="border-t border-[rgba(11,25,44,0.08)] bg-white/70 backdrop-blur-md py-4 text-xs text-[#788699]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-            <span className="font-medium text-[#1C1917]">Recommendation Engine Console</span>
-            <span className="text-[#D6D1C7]">|</span>
-            <span className="font-mono text-[11px] text-[#78716C]">Core Runtime 2.16.2</span>
+            <span className="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_rgba(16,185,129,0.35)] inline-block" />
+            <span className="font-bold text-[#0b192c]">Recommendation Engine Console</span>
+            <span className="text-[rgba(11,25,44,0.15)]">|</span>
+            <span className="font-mono text-[11px] text-[#788699]">Core Runtime 2.16.2</span>
           </div>
-          <div className="flex items-center space-x-3 text-[#78716C] font-mono text-[11px]">
+          <div className="flex items-center space-x-3 text-[#788699] font-mono text-[11px]">
             <span>FAISS IndexFlatIP</span>
             <span>•</span>
-            <span className="text-[#F05A36] font-semibold">DCN-v2 Ranker</span>
+            <span className="text-[#ff5a5f] font-bold">DCN-v2 Ranker</span>
             <span>•</span>
             <span>Spark Feature Store</span>
           </div>

@@ -68,20 +68,20 @@ export const PlaygroundTab: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Configuration Form Card in Cream & Coral */}
-      <div className="p-5 rounded-lg border border-[#EAE5DC] bg-white shadow-2xs space-y-5">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#F5F2EB] pb-4">
+      {/* Configuration Form Deck in PyMaster Style */}
+      <div className="p-6 rounded-[20px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05),0_1px_2px_rgba(11,25,44,0.03)] space-y-5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[rgba(11,25,44,0.06)] pb-4">
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="text-base font-bold text-[#1C1917] flex items-center space-x-2">
-                <SlidersHorizontal className="w-4 h-4 text-[#F05A36]" />
+              <h2 className="text-base font-extrabold text-[#0b192c] flex items-center space-x-2 tracking-tight">
+                <SlidersHorizontal className="w-4 h-4 text-[#ff5a5f]" />
                 <span>Recommendation Generator</span>
               </h2>
-              <span className="font-mono text-[10px] font-semibold px-1.5 py-0.2 rounded bg-[#FFF0EB] text-[#D93815] border border-[#FCDAD1]">
+              <span className="font-mono text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#ff5a5f]/10 text-[#ff5a5f] border border-[#ff5a5f]/25">
                 INFERENCE
               </span>
             </div>
-            <p className="text-xs text-[#78716C] mt-0.5">
+            <p className="text-xs text-[#788699] mt-0.5">
               Execute real-time candidate retrieval and neural ranking for user profiles
             </p>
           </div>
@@ -91,10 +91,10 @@ export const PlaygroundTab: React.FC = () => {
               <button
                 key={preset.id}
                 onClick={() => setUserId(preset.id)}
-                className={`px-2.5 py-1 text-xs rounded-md border transition-colors ${
+                className={`px-3 py-1.5 text-xs rounded-full border transition-all ${
                   userId === preset.id
-                    ? "bg-[#FFF0EB] border-[#FCDAD1] text-[#D93815] font-semibold"
-                    : "bg-[#FAF8F5] border-[#EAE5DC] text-[#57534E] hover:text-[#1C1917] hover:bg-[#F5F2EB]"
+                    ? "bg-[#0b192c] border-[#0b192c] text-[#faf7f2] font-bold shadow-[0_2px_8px_rgba(11,25,44,0.15)]"
+                    : "bg-white border-[rgba(11,25,44,0.08)] text-[#475569] font-semibold hover:border-[#ff5a5f] hover:text-[#0b192c] hover:-translate-y-0.5 shadow-[0_1px_3px_rgba(11,25,44,0.04)]"
                 }`}
               >
                 {preset.label}
@@ -103,25 +103,25 @@ export const PlaygroundTab: React.FC = () => {
           </div>
         </div>
 
-        {/* Input Parameters Form - Precisely Aligned */}
+        {/* Input Parameters Form */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
           {/* User ID */}
           <div>
-            <label className="block text-xs font-semibold text-[#57534E] mb-1.5">User ID</label>
+            <label className="block text-xs font-bold text-[#475569] mb-1.5 font-mono">User ID</label>
             <input
               type="text"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
               placeholder="e.g. 1"
-              className="w-full bg-white border border-[#EAE5DC] rounded-lg px-3 py-2 text-sm text-[#1C1917] placeholder-[#A8A29E] focus:outline-none focus:border-[#F05A36] focus:ring-1 focus:ring-[#F05A36] font-mono transition-colors h-10"
+              className="w-full bg-white border border-[rgba(11,25,44,0.08)] rounded-[12px] px-3.5 py-2 text-sm text-[#0b192c] placeholder-[#788699] focus:outline-none focus:border-[#ff5a5f] focus:ring-2 focus:ring-[#ff5a5f]/20 font-mono transition-all h-10 shadow-[inset_0_1px_3px_rgba(11,25,44,0.04)]"
             />
           </div>
 
           {/* Top-K Limit */}
           <div>
-            <div className="flex justify-between text-xs font-semibold text-[#57534E] mb-1.5">
+            <div className="flex justify-between text-xs font-bold text-[#475569] mb-1.5">
               <span>Candidate Output (N)</span>
-              <span className="tabular-nums font-mono text-[#F05A36] font-bold">{limit}</span>
+              <span className="tabular-nums font-mono text-[#ff5a5f] font-extrabold">{limit}</span>
             </div>
             <div className="h-10 flex items-center">
               <input
@@ -130,18 +130,18 @@ export const PlaygroundTab: React.FC = () => {
                 max="50"
                 value={limit}
                 onChange={(e) => setLimit(parseInt(e.target.value))}
-                className="w-full accent-[#F05A36] h-2 bg-[#EAE5DC] rounded-lg cursor-pointer"
+                className="w-full accent-[#ff5a5f] h-2 bg-[#ede7dc] rounded-full cursor-pointer"
               />
             </div>
           </div>
 
           {/* Category Filter */}
           <div>
-            <label className="block text-xs font-semibold text-[#57534E] mb-1.5">Category Filter</label>
+            <label className="block text-xs font-bold text-[#475569] mb-1.5">Category Filter</label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full bg-white border border-[#EAE5DC] rounded-lg px-3 py-2 text-sm text-[#1C1917] focus:outline-none focus:border-[#F05A36] focus:ring-1 focus:ring-[#F05A36] transition-colors h-10"
+              className="w-full bg-white border border-[rgba(11,25,44,0.08)] rounded-[12px] px-3.5 py-2 text-sm text-[#0b192c] focus:outline-none focus:border-[#ff5a5f] focus:ring-2 focus:ring-[#ff5a5f]/20 transition-all h-10 shadow-[inset_0_1px_3px_rgba(11,25,44,0.04)]"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
@@ -153,25 +153,25 @@ export const PlaygroundTab: React.FC = () => {
 
           {/* Ranking Model Selection */}
           <div>
-            <label className="block text-xs font-semibold text-[#57534E] mb-1.5">Stage 2 Ranker</label>
+            <label className="block text-xs font-bold text-[#475569] mb-1.5">Stage 2 Ranker</label>
             <select
               value={modelType}
               onChange={(e) => setModelType(e.target.value)}
-              className="w-full bg-white border border-[#EAE5DC] rounded-lg px-3 py-2 text-sm text-[#1C1917] focus:outline-none focus:border-[#F05A36] focus:ring-1 focus:ring-[#F05A36] transition-colors font-medium h-10"
+              className="w-full bg-white border border-[rgba(11,25,44,0.08)] rounded-[12px] px-3.5 py-2 text-sm text-[#0b192c] focus:outline-none focus:border-[#ff5a5f] focus:ring-2 focus:ring-[#ff5a5f]/20 transition-all font-semibold h-10 shadow-[inset_0_1px_3px_rgba(11,25,44,0.04)]"
             >
               <option value="dcn">DCN-v2 (Deep & Cross)</option>
               <option value="wide_and_deep">Wide & Deep</option>
             </select>
           </div>
 
-          {/* Action Trigger - PyMaster Coral Button */}
+          {/* Action Trigger - PyMaster Coral Action Button */}
           <div className="flex flex-col space-y-1.5">
-            <label className="flex items-center space-x-2 text-xs text-[#57534E] cursor-pointer select-none">
+            <label className="flex items-center space-x-2 text-xs text-[#475569] cursor-pointer select-none font-medium">
               <input
                 type="checkbox"
                 checked={excludeWatched}
                 onChange={(e) => setExcludeWatched(e.target.checked)}
-                className="rounded border-[#EAE5DC] text-[#F05A36] focus:ring-[#F05A36]"
+                className="rounded border-[rgba(11,25,44,0.15)] text-[#ff5a5f] focus:ring-[#ff5a5f]"
               />
               <span>Exclude watched</span>
             </label>
@@ -179,7 +179,7 @@ export const PlaygroundTab: React.FC = () => {
             <button
               onClick={handleRecommend}
               disabled={loading}
-              className="w-full h-10 px-4 rounded-lg bg-[#F05A36] hover:bg-[#E04826] active:bg-[#D03E1C] text-white font-semibold text-sm transition-colors shadow-xs flex items-center justify-center space-x-2 disabled:opacity-50"
+              className="w-full h-10 px-5 rounded-[12px] bg-[#ff5a5f] hover:bg-[#e84e53] active:scale-[0.98] text-white font-extrabold text-sm shadow-[0_4px_14px_rgba(255,90,95,0.30)] hover:shadow-[0_6px_18px_rgba(255,90,95,0.35)] transition-all flex items-center justify-center space-x-2 disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <span>Executing Pipeline...</span>
@@ -195,79 +195,70 @@ export const PlaygroundTab: React.FC = () => {
       </div>
 
       {error && (
-        <div className="p-4 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center space-x-2">
+        <div className="p-4 rounded-[14px] bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center space-x-2 font-medium">
           <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* Diagnostics Telemetry Strip with Green Preserved for Cache Hit */}
+      {/* Diagnostics Telemetry Strip */}
       {result && (
-        <div className="p-4 rounded-lg border border-[#EAE5DC] bg-white shadow-2xs grid grid-cols-2 md:grid-cols-6 gap-3 text-xs">
-          <div className="bg-[#FAF8F5] p-2.5 rounded-lg border border-[#EAE5DC]">
-            <div className="text-[#78716C] flex items-center space-x-1">
-              <Clock className="w-3.5 h-3.5 text-[#A8A29E]" />
+        <div className="p-5 rounded-[20px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05)] grid grid-cols-2 md:grid-cols-6 gap-3 text-xs">
+          <div className="bg-[#f3eee5]/80 p-3 rounded-[14px] border border-[rgba(11,25,44,0.06)]">
+            <div className="text-[#788699] flex items-center space-x-1.5 font-bold">
+              <Clock className="w-3.5 h-3.5 text-[#ff5a5f]" />
               <span>Total Latency</span>
             </div>
-            <div className="text-sm font-bold text-[#1C1917] mt-1 tabular-nums font-mono">
+            <div className="text-sm font-extrabold text-[#0b192c] mt-1.5 tabular-nums font-mono">
               {result.total_processing_ms} ms
             </div>
           </div>
 
-          <div className="bg-[#FAF8F5] p-2.5 rounded-lg border border-[#EAE5DC]">
-            <div className="text-[#78716C] flex items-center space-x-1">
-              <Layers className="w-3.5 h-3.5 text-[#A8A29E]" />
+          <div className="bg-[#f3eee5]/80 p-3 rounded-[14px] border border-[rgba(11,25,44,0.06)]">
+            <div className="text-[#788699] flex items-center space-x-1.5 font-bold">
+              <Layers className="w-3.5 h-3.5 text-[#ff5a5f]" />
               <span>Stage 1 (FAISS)</span>
             </div>
-            <div className="text-sm font-bold text-[#1C1917] mt-1 tabular-nums font-mono">
+            <div className="text-sm font-extrabold text-[#0b192c] mt-1.5 tabular-nums font-mono">
               {result.retrieval_stage.retrieved_count} items
             </div>
-            <div className="text-[#A8A29E] text-[10px] tabular-nums font-mono">{result.retrieval_stage.latency_ms} ms</div>
+            <div className="text-[#788699] text-[10px] tabular-nums font-mono">{result.retrieval_stage.latency_ms} ms</div>
           </div>
 
-          <div className="bg-[#FAF8F5] p-2.5 rounded-lg border border-[#EAE5DC]">
-            <div className="text-[#78716C] flex items-center space-x-1">
-              <Sliders className="w-3.5 h-3.5 text-[#A8A29E]" />
+          <div className="bg-[#f3eee5]/80 p-3 rounded-[14px] border border-[rgba(11,25,44,0.06)]">
+            <div className="text-[#788699] flex items-center space-x-1.5 font-bold">
+              <Sliders className="w-3.5 h-3.5 text-[#ff5a5f]" />
               <span>Stage 2 (Ranked)</span>
             </div>
-            <div className="text-sm font-bold text-[#1C1917] mt-1 tabular-nums font-mono">
+            <div className="text-sm font-extrabold text-[#0b192c] mt-1.5 tabular-nums font-mono">
               {result.ranking_stage.ranked_count} items
             </div>
-            <div className="text-[#A8A29E] text-[10px] tabular-nums font-mono">{result.ranking_stage.latency_ms} ms</div>
+            <div className="text-[#788699] text-[10px] tabular-nums font-mono">{result.ranking_stage.latency_ms} ms</div>
           </div>
 
-          <div className="bg-[#FAF8F5] p-2.5 rounded-lg border border-[#EAE5DC]">
-            <div className="text-[#78716C]">Model Head</div>
-            <div className="text-sm font-bold text-[#1C1917] mt-1 uppercase font-mono">
+          <div className="bg-[#f3eee5]/80 p-3 rounded-[14px] border border-[rgba(11,25,44,0.06)]">
+            <div className="text-[#788699] font-bold">Model Head</div>
+            <div className="text-sm font-extrabold text-[#0b192c] mt-1.5 uppercase font-mono">
               {result.ranking_stage.model}
             </div>
           </div>
 
-          <div className="bg-[#FAF8F5] p-2.5 rounded-lg border border-[#EAE5DC]">
-            <div className="text-[#78716C]">Strategy Path</div>
-            <div className="text-sm font-bold text-[#1C1917] mt-1 truncate capitalize">
+          <div className="bg-[#f3eee5]/80 p-3 rounded-[14px] border border-[rgba(11,25,44,0.06)]">
+            <div className="text-[#788699] font-bold">Strategy Path</div>
+            <div className="text-sm font-extrabold text-[#0b192c] mt-1.5 truncate capitalize">
               {result.strategy.replace("_", " ")}
             </div>
           </div>
 
-          <div className="bg-[#FAF8F5] p-2.5 rounded-lg border border-[#EAE5DC]">
-            <div className="text-[#78716C] flex items-center space-x-1">
-              <Database className="w-3.5 h-3.5 text-[#A8A29E]" />
+          <div className="bg-[#f3eee5]/80 p-3 rounded-[14px] border border-[rgba(11,25,44,0.06)]">
+            <div className="text-[#788699] flex items-center space-x-1.5 font-bold">
+              <Database className="w-3.5 h-3.5 text-[#10b981]" />
               <span>Cache Buffer</span>
             </div>
-            <div className={`text-sm font-bold mt-1 font-mono ${result.cached ? "text-emerald-700" : "text-amber-700"}`}>
+            <div className={`text-sm font-black mt-1.5 font-mono ${result.cached ? "text-[#10b981]" : "text-[#788699]"}`}>
               {result.cached ? "HIT" : "MISS"}
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Loading Skeleton */}
-      {loading && !result && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-44 rounded-lg border border-[#EAE5DC] bg-white" />
-          ))}
         </div>
       )}
 
@@ -275,10 +266,15 @@ export const PlaygroundTab: React.FC = () => {
       {result && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold text-[#57534E] uppercase tracking-wider">
-              Output Candidates ({result.recommendations.length})
-            </h3>
-            <span className="text-xs text-[#78716C] font-mono">
+            <div className="flex items-center space-x-2">
+              <span className="font-mono text-[10px] font-extrabold text-[#ff5a5f] uppercase tracking-wider">
+                RESULTS
+              </span>
+              <h3 className="text-xs font-extrabold text-[#0b192c] uppercase tracking-wider font-mono">
+                Output Candidates ({result.recommendations.length})
+              </h3>
+            </div>
+            <span className="text-xs text-[#788699] font-mono font-medium">
               Calibrated Deep Ranking Scores
             </span>
           </div>
@@ -287,30 +283,30 @@ export const PlaygroundTab: React.FC = () => {
             {result.recommendations.map((item) => (
               <div
                 key={item.item_id}
-                className="p-4 rounded-lg border border-[#EAE5DC] bg-white shadow-2xs flex flex-col justify-between space-y-4"
+                className="p-5 rounded-[16px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05),0_1px_2px_rgba(11,25,44,0.03)] hover:border-[#ff5a5f] hover:shadow-[0_4px_20px_-2px_rgba(11,25,44,0.08)] hover:translate-x-1 transition-all flex flex-col justify-between space-y-4"
               >
                 <div>
                   <div className="flex items-start justify-between gap-3">
-                    <span className="w-6 h-6 rounded bg-[#FAF8F5] border border-[#EAE5DC] flex items-center justify-center text-xs font-mono font-bold text-[#57534E] flex-shrink-0 tabular-nums">
+                    <span className="w-7 h-7 rounded-[10px] bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] flex items-center justify-center text-xs font-mono font-black text-[#0b192c] flex-shrink-0 tabular-nums">
                       {item.rank}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-[#1C1917] truncate" title={item.title}>
+                      <h4 className="text-sm font-extrabold text-[#0b192c] truncate tracking-tight" title={item.title}>
                         {item.title}
                       </h4>
-                      <p className="text-xs text-[#78716C] tabular-nums font-mono">{item.release_year}</p>
+                      <p className="text-xs text-[#788699] tabular-nums font-mono font-medium">{item.release_year}</p>
                     </div>
-                    <span className="inline-flex items-center space-x-1 text-xs font-semibold text-[#1C1917] bg-[#FAF8F5] border border-[#EAE5DC] px-2 py-0.5 rounded tabular-nums flex-shrink-0">
+                    <span className="inline-flex items-center space-x-1 text-xs font-bold text-[#0b192c] bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] px-2.5 py-0.5 rounded-full tabular-nums flex-shrink-0">
                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                       <span>{item.average_rating}</span>
                     </span>
                   </div>
 
-                  <div className="flex flex-wrap gap-1 mt-3">
+                  <div className="flex flex-wrap gap-1.5 mt-3.5">
                     {item.categories.map((c, i) => (
                       <span
                         key={i}
-                        className="text-[11px] px-2 py-0.5 rounded bg-[#FAF8F5] text-[#57534E] border border-[#EAE5DC] font-medium"
+                        className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#f3eee5] text-[#475569] border border-[rgba(11,25,44,0.08)] font-semibold"
                       >
                         {c}
                       </span>
@@ -318,22 +314,22 @@ export const PlaygroundTab: React.FC = () => {
                   </div>
 
                   {item.reason && (
-                    <div className="mt-3 text-xs text-[#57534E] flex items-start space-x-1.5 bg-[#FAF8F5] p-2 rounded border border-[#EAE5DC]">
-                      <Info className="w-3.5 h-3.5 text-[#F05A36] flex-shrink-0 mt-0.5" />
+                    <div className="mt-3.5 text-xs text-[#475569] flex items-start space-x-1.5 bg-[#f3eee5]/80 p-2.5 rounded-[12px] border border-[rgba(11,25,44,0.06)] font-medium">
+                      <Info className="w-3.5 h-3.5 text-[#ff5a5f] flex-shrink-0 mt-0.5" />
                       <span>{item.reason}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Score breakdown metrics */}
-                <div className="pt-3 border-t border-[#F5F2EB] grid grid-cols-2 gap-2 text-xs">
-                  <div className="bg-[#FAF8F5] p-2 rounded border border-[#EAE5DC]">
-                    <div className="text-[#78716C] text-[10px]">Retrieval Cosine</div>
-                    <div className="font-semibold text-[#1C1917] tabular-nums font-mono">{item.retrieval_score.toFixed(4)}</div>
+                <div className="pt-3.5 border-t border-[rgba(11,25,44,0.06)] grid grid-cols-2 gap-2 text-xs">
+                  <div className="bg-[#f3eee5]/80 p-2.5 rounded-[12px] border border-[rgba(11,25,44,0.06)]">
+                    <div className="text-[#788699] text-[10px] font-bold font-mono">RETRIEVAL COSINE</div>
+                    <div className="font-bold text-[#0b192c] tabular-nums font-mono text-sm mt-0.5">{item.retrieval_score.toFixed(4)}</div>
                   </div>
-                  <div className="bg-[#FFF0EB] p-2 rounded border border-[#FCDAD1]">
-                    <div className="text-[#D93815] text-[10px] font-medium">Ranking Probability</div>
-                    <div className="font-bold text-[#F05A36] tabular-nums font-mono">{item.ranking_score.toFixed(4)}</div>
+                  <div className="bg-[#ff5a5f]/10 p-2.5 rounded-[12px] border border-[#ff5a5f]/25">
+                    <div className="text-[#ff5a5f] text-[10px] font-extrabold font-mono">RANKING PROB</div>
+                    <div className="font-black text-[#ff5a5f] tabular-nums font-mono text-sm mt-0.5">{item.ranking_score.toFixed(4)}</div>
                   </div>
                 </div>
               </div>

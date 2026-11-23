@@ -49,10 +49,10 @@ export const PipelineMonitorTab: React.FC = () => {
   if (loading && !pipeline) {
     return (
       <div className="space-y-6">
-        <div className="h-24 rounded-lg border border-[#EAE5DC] bg-white shadow-2xs" />
+        <div className="h-28 rounded-[20px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05)] animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(12)].map((_, i) => (
-            <div key={i} className="h-32 rounded-lg border border-[#EAE5DC] bg-white shadow-2xs" />
+            <div key={i} className="h-36 rounded-[16px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05)] animate-pulse" />
           ))}
         </div>
       </div>
@@ -62,15 +62,15 @@ export const PipelineMonitorTab: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header and Controls */}
-      <div className="p-5 rounded-lg border border-[#EAE5DC] bg-white shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 rounded-[20px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05),0_1px_2px_rgba(11,25,44,0.03)] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-3">
-            <h2 className="text-base font-bold text-[#1C1917] flex items-center space-x-2">
-              <GitBranch className="w-4 h-4 text-[#F05A36]" />
+            <h2 className="text-base font-extrabold text-[#0b192c] flex items-center space-x-2 tracking-tight">
+              <GitBranch className="w-4 h-4 text-[#ff5a5f]" />
               <span>Retraining Pipeline</span>
             </h2>
             <span
-              className={`text-xs px-2.5 py-0.5 rounded-full font-bold font-mono ${
+              className={`text-xs px-3 py-0.5 rounded-full font-bold font-mono ${
                 pipeline?.is_running
                   ? "bg-amber-100 text-amber-800 border border-amber-300"
                   : "bg-emerald-50 text-emerald-800 border border-emerald-200"
@@ -79,7 +79,7 @@ export const PipelineMonitorTab: React.FC = () => {
               {pipeline?.overall_status?.toUpperCase() || "IDLE"}
             </span>
           </div>
-          <p className="text-xs text-[#78716C] mt-1">
+          <p className="text-xs text-[#788699] mt-1">
             Sequential 12-task pipeline for data ingestion, feature extraction, model retraining, and evaluation
           </p>
         </div>
@@ -87,7 +87,7 @@ export const PipelineMonitorTab: React.FC = () => {
         <div className="flex items-center space-x-2">
           <button
             onClick={fetchPipeline}
-            className="p-2 bg-[#FAF8F5] text-[#57534E] hover:text-[#1C1917] rounded-lg border border-[#EAE5DC] transition-colors"
+            className="w-9 h-9 rounded-full bg-white border border-[rgba(11,25,44,0.08)] shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05)] flex items-center justify-center text-[#788699] hover:text-[#0b192c] hover:border-[#ff5a5f] hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer"
             title="Refresh status"
             aria-label="Refresh pipeline status"
           >
@@ -97,7 +97,7 @@ export const PipelineMonitorTab: React.FC = () => {
           <button
             onClick={handleRetrain}
             disabled={triggering || pipeline?.is_running}
-            className="h-10 px-4 bg-[#F05A36] hover:bg-[#E04826] active:bg-[#D03E1C] text-white rounded-lg text-sm font-semibold transition-colors flex items-center space-x-2 disabled:opacity-50 shadow-xs"
+            className="h-10 px-5 bg-[#ff5a5f] hover:bg-[#e84e53] active:scale-[0.98] text-white rounded-[12px] text-sm font-extrabold transition-all flex items-center space-x-2 shadow-[0_4px_14px_rgba(255,90,95,0.30)] hover:shadow-[0_6px_18px_rgba(255,90,95,0.35)] cursor-pointer disabled:opacity-50"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
             <span>{pipeline?.is_running ? "Retraining in progress..." : "Trigger Retraining"}</span>
@@ -106,13 +106,13 @@ export const PipelineMonitorTab: React.FC = () => {
       </div>
 
       {triggerMsg && (
-        <div className="p-3.5 rounded-lg bg-[#FFF0EB] border border-[#FCDAD1] text-[#1C1917] text-xs flex items-center space-x-2">
-          <Terminal className="w-4 h-4 text-[#F05A36] flex-shrink-0" />
+        <div className="p-4 rounded-[14px] bg-[#ff5a5f]/10 border border-[#ff5a5f]/25 text-[#0b192c] text-xs flex items-center space-x-2 font-medium">
+          <Terminal className="w-4 h-4 text-[#ff5a5f] flex-shrink-0" />
           <span>{triggerMsg}</span>
         </div>
       )}
 
-      {/* 12-Stage Grid with Green Preserved for Completed Status */}
+      {/* 12-Stage Grid with PyMaster Styling */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {pipeline?.stages?.map((stage: PipelineStage) => {
           const isDone = stage.status === "completed";
@@ -122,48 +122,48 @@ export const PipelineMonitorTab: React.FC = () => {
           return (
             <div
               key={stage.id}
-              className={`p-4 rounded-lg border transition-colors flex flex-col justify-between ${
+              className={`p-5 rounded-[16px] border transition-all flex flex-col justify-between ${
                 isDone
-                  ? "bg-white border-[#EAE5DC] shadow-2xs"
+                  ? "bg-white border-[rgba(11,25,44,0.08)] shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05),0_1px_2px_rgba(11,25,44,0.03)] hover:border-[#ff5a5f]/40 hover:shadow-[0_4px_20px_-2px_rgba(11,25,44,0.05)]"
                   : isRun
-                  ? "bg-amber-50/40 border-amber-300 shadow-2xs"
+                  ? "bg-amber-50/40 border-amber-300 shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05)]"
                   : isFail
-                  ? "bg-rose-50/40 border-rose-300 shadow-2xs"
-                  : "bg-white/60 border-[#EAE5DC]/60 opacity-60"
+                  ? "bg-rose-50/40 border-rose-300 shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05)]"
+                  : "bg-white/60 border-[rgba(11,25,44,0.04)] opacity-60"
               }`}
             >
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="w-5 h-5 rounded bg-[#FAF8F5] flex items-center justify-center text-[11px] font-mono font-bold text-[#57534E] tabular-nums border border-[#EAE5DC]">
+                <div className="flex items-center justify-between mb-2.5">
+                  <span className="w-6 h-6 rounded-[8px] bg-[#f3eee5] flex items-center justify-center text-[11px] font-mono font-black text-[#0b192c] tabular-nums border border-[rgba(11,25,44,0.08)]">
                     {stage.id}
                   </span>
                   <span
-                    className={`text-[10px] uppercase font-bold font-mono px-2 py-0.5 rounded ${
+                    className={`text-[10px] uppercase font-bold font-mono px-2.5 py-0.5 rounded-full ${
                       isDone
                         ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
                         : isRun
                         ? "bg-amber-50 text-amber-800 border border-amber-200"
                         : isFail
                         ? "bg-rose-50 text-rose-800 border border-rose-200"
-                        : "bg-[#FAF8F5] text-[#78716C]"
+                        : "bg-[#f3eee5] text-[#788699]"
                     }`}
                   >
                     {stage.status}
                   </span>
                 </div>
 
-                <h4 className="text-xs font-bold text-[#1C1917]">{stage.name}</h4>
-                <p className="text-[11px] text-[#78716C] mt-1 line-clamp-2 leading-relaxed">
+                <h4 className="text-xs font-extrabold text-[#0b192c] tracking-tight">{stage.name}</h4>
+                <p className="text-[11px] text-[#788699] mt-1 line-clamp-2 leading-relaxed">
                   {stage.description}
                 </p>
               </div>
 
-              <div className="pt-3 mt-3 border-t border-[#F5F2EB] flex items-center justify-between text-xs text-[#78716C]">
-                <span className="flex items-center space-x-1 tabular-nums font-mono text-[11px]">
-                  <Clock className="w-3 h-3 text-[#A8A29E]" />
+              <div className="pt-3.5 mt-3.5 border-t border-[rgba(11,25,44,0.06)] flex items-center justify-between text-xs text-[#788699]">
+                <span className="flex items-center space-x-1 tabular-nums font-mono text-[11px] font-medium">
+                  <Clock className="w-3 h-3 text-[#788699]" />
                   <span>{stage.duration_s ? `${stage.duration_s}s` : "Pending"}</span>
                 </span>
-                {isDone && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />}
+                {isDone && <CheckCircle2 className="w-3.5 h-3.5 text-[#10b981]" />}
               </div>
             </div>
           );

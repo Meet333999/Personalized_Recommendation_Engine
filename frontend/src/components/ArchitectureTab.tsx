@@ -64,17 +64,17 @@ export const ArchitectureTab: React.FC = () => {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Intro Header */}
-      <div className="p-6 rounded-lg border border-[#EAE5DC] bg-white shadow-2xs">
+      <div className="p-6 rounded-[20px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05)]">
         <div className="flex items-center space-x-2">
-          <h2 className="text-base font-bold text-[#1C1917] flex items-center space-x-2">
-            <Cpu className="w-4 h-4 text-[#F05A36]" />
+          <h2 className="text-base font-extrabold text-[#0b192c] flex items-center space-x-2 tracking-tight">
+            <Cpu className="w-4 h-4 text-[#ff5a5f]" />
             <span>System Architecture</span>
           </h2>
-          <span className="font-mono text-[10px] font-semibold px-1.5 py-0.2 rounded bg-[#FFF0EB] text-[#D93815] border border-[#FCDAD1]">
+          <span className="font-mono text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#ff5a5f]/10 text-[#ff5a5f] border border-[#ff5a5f]/25">
             SPECIFICATION
           </span>
         </div>
-        <p className="text-xs text-[#78716C] mt-1">
+        <p className="text-xs text-[#788699] mt-1">
           Two-stage recommendation pipeline architecture: candidate retrieval, neural ranking, and cold-start fallback
         </p>
       </div>
@@ -86,28 +86,28 @@ export const ArchitectureTab: React.FC = () => {
           return (
             <div
               key={item.step}
-              className="p-5 rounded-lg border border-[#EAE5DC] bg-white shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4"
+              className="p-6 rounded-[16px] border border-[rgba(11,25,44,0.08)] bg-white shadow-[0_2px_10px_-1px_rgba(11,25,44,0.05),0_1px_2px_rgba(11,25,44,0.03)] hover:border-[#ff5a5f]/40 hover:shadow-[0_4px_20px_-2px_rgba(11,25,44,0.05)] transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
             >
               <div className="flex items-start space-x-4">
-                <div className="w-9 h-9 rounded-md bg-[#FFF0EB] border border-[#FCDAD1] flex items-center justify-center text-[#F05A36] flex-shrink-0 mt-0.5">
-                  <Icon className="w-4 h-4 text-[#F05A36]" />
+                <div className="w-10 h-10 rounded-[12px] bg-[#ff5a5f]/10 border border-[#ff5a5f]/25 flex items-center justify-center text-[#ff5a5f] flex-shrink-0 mt-0.5 shadow-xs">
+                  <Icon className="w-4 h-4 text-[#ff5a5f]" />
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-xs font-mono font-bold text-[#F05A36] tabular-nums">
-                      Step {item.step}
+                    <span className="text-xs font-mono font-black text-[#ff5a5f] tabular-nums">
+                      STEP {item.step}
                     </span>
-                    <span className="text-[#D6D1C7]">/</span>
-                    <h3 className="text-sm font-bold text-[#1C1917]">{item.title}</h3>
+                    <span className="text-[rgba(11,25,44,0.15)]">/</span>
+                    <h3 className="text-sm font-extrabold text-[#0b192c] tracking-tight">{item.title}</h3>
                   </div>
-                  <p className="text-xs text-[#78716C] mt-1 leading-relaxed max-w-2xl">
+                  <p className="text-xs text-[#788699] mt-1 leading-relaxed max-w-2xl font-medium">
                     {item.description}
                   </p>
                 </div>
               </div>
 
               <div className="flex-shrink-0 self-start md:self-center">
-                <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#EAE5DC] text-[#57534E] font-medium">
+                <span className="text-xs font-mono px-3 py-1 rounded-full bg-[#f3eee5] border border-[rgba(11,25,44,0.08)] text-[#475569] font-bold">
                   {item.tag}
                 </span>
               </div>
