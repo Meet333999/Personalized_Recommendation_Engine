@@ -48,6 +48,10 @@ data/processed/*
 !data/processed/.gitkeep
 !data/processed/movie_posters.json
 !data/processed/movie_descriptions.json
+
+# Local Presentation content (do not push to git)
+PRESENTATION.md
+presentation_deck.md
 data/features/*
 !data/features/.gitkeep
 models/retrieval/*.bin
