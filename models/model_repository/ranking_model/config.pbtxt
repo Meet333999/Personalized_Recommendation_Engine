@@ -1,0 +1,75 @@
+name: "ranking_model"
+platform: "tensorflow_savedmodel"
+max_batch_size: 512
+
+input [
+  {
+    name: "user_id"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  },
+  {
+    name: "item_id"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  },
+  {
+    name: "user_top_category"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  },
+  {
+    name: "primary_category"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  },
+  {
+    name: "user_interaction_count"
+    data_type: TYPE_FP32
+    dims: [ -1 ]
+  },
+  {
+    name: "user_avg_rating"
+    data_type: TYPE_FP32
+    dims: [ -1 ]
+  },
+  {
+    name: "item_popularity_score"
+    data_type: TYPE_FP32
+    dims: [ -1 ]
+  },
+  {
+    name: "item_avg_rating"
+    data_type: TYPE_FP32
+    dims: [ -1 ]
+  },
+  {
+    name: "category_affinity"
+    data_type: TYPE_FP32
+    dims: [ -1 ]
+  },
+  {
+    name: "retrieval_score"
+    data_type: TYPE_FP32
+    dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "ranking_score"
+    data_type: TYPE_FP32
+    dims: [ -1, 1 ]
+  }
+]
+
+dynamic_batching {
+  max_queue_delay_microseconds: 5000
+}
+
+instance_group [
+  {
+    count: 1
+    kind: KIND_AUTO
+  }
+]

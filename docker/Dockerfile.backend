@@ -1,0 +1,27 @@
+# Dockerfile for FastAPI Recommendation Backend
+FROM python:3.11-slim
+
+WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1 \
+    TF_USE_LEGACY_KERAS=1 \
+    TF_ENABLE_ONEDNN_OPTS=0
+
+# Install system dependencies including OpenJDK for PySpark
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    default-jre-headless \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY backend/ ./backend/
+COPY models/ ./models/
+COPY data/ ./data/
+COPY airflow/ ./airflow/
+
+EXPOSE 8000
+
+CMD ["uvicorn", "backend.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

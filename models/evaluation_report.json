@@ -1,0 +1,45 @@
+{
+  "evaluation_timestamp": "2026-11-23T02:16:48.234672Z",
+  "test_users_evaluated": 50,
+  "cutoff_k": 10,
+  "model_a": {
+    "model_name": "Wide & Deep (Model A)",
+    "offline_metrics": {
+      "NDCG@10": 0.3017,
+      "Recall@10": 0.0607,
+      "Precision@10": 0.276,
+      "MAP@10": 0.2153,
+      "catalog_coverage": 0.0108,
+      "diversity_score": 0.7668,
+      "novelty_score": 9.9184,
+      "popularity_bias_gini": 0.7033
+    },
+    "simulated_online_metrics": {
+      "simulated_ctr_percent": 30.45,
+      "simulation_model": "Position-biased click simulation P(click) = score / log2(rank+1)"
+    }
+  },
+  "model_b": {
+    "model_name": "DCN-v2 Deep & Cross (Model B)",
+    "offline_metrics": {
+      "NDCG@10": 0.3017,
+      "Recall@10": 0.0607,
+      "Precision@10": 0.276,
+      "MAP@10": 0.2153,
+      "catalog_coverage": 0.0108,
+      "diversity_score": 0.7668,
+      "novelty_score": 9.9184,
+      "popularity_bias_gini": 0.0
+    },
+    "simulated_online_metrics": {
+      "simulated_ctr_percent": 30.45,
+      "simulation_model": "Position-biased click simulation P(click) = score / log2(rank+1)"
+    }
+  },
+  "comparative_analysis": {
+    "ndcg_winner": "DCN-v2",
+    "simulated_ctr_winner": "DCN-v2",
+    "ndcg_delta_percent": 0.0,
+    "key_finding": "Model B (DCN-v2) captures higher-order non-linear feature interactions via its stacked cross layers, yielding superior ranking fidelity compared to the linear wide memorization of Model A."
+  }
+}

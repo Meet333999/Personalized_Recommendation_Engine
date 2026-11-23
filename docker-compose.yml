@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Redis In-Memory Cache
+  redis:
+    image: redis:7-alpine
+    container_name: deeprec-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  # FastAPI Machine Learning Recommendation Backend
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    container_name: deeprec-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SERVING_MODE=local
+      - TF_USE_LEGACY_KERAS=1
+      - TF_ENABLE_ONEDNN_OPTS=0
+    depends_on:
+      - redis
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    restart: unless-stopped
+
+  # React + TypeScript + Tailwind Dashboard
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    container_name: deeprec-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # Optional NVIDIA Triton Inference Server
+  # (Enable when running in an environment with Docker NVIDIA Container Toolkit)
+  # triton:
+  #   image: nvcr.io/nvidia/tritonserver:24.01-py3
+  #   container_name: deeprec-triton
+  #   ports:
+  #     - "8001:8001"
+  #     - "8002:8002"
+  #   volumes:
+  #     - ./models/model_repository:/models
+  #   command: ["tritonserver", "--model-repository=/models"]
+
+volumes:
+  redis_data:
